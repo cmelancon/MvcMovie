@@ -18,6 +18,7 @@
 
     <h1 onclick="eastman()">Go to Eastman</h1>
     <h1 onclick="marcheJeanTalon()">Go to Marché Jean-Talon</h1>
+    <h1 onclick="calcRoute()">Directions</h1>
     <article>
       <p>Ma position courante: <span id="status">checking...</span></p>
     </article>
@@ -26,6 +27,9 @@
     <div id="map_canvas"></div>
 
 
+    <!--
+    Connaître et marquer la position actuelle.
+    -->
 <script>
     function success(position) {
         var s = document.querySelector('#status');
@@ -84,6 +88,9 @@
         var maTrail = new google.maps.LatLng(45.289309, -72.303855);
 
 
+        /*
+        Afficher un contrôle custom (style des boutons "Satellite", "Plan") -->
+        */
         function HomeControl(controlDiv, map) {
             // https://google-developers.appspot.com/maps/documentation/javascript/examples/control-custom
             // Set CSS styles for the DIV containing the control
@@ -119,7 +126,9 @@
         }
 
 
-
+        /*
+        Marker et événement Onclick.
+        */
         function eastman() {
 
             var myLatlng = new google.maps.LatLng(45.289309, -72.303855);
@@ -156,6 +165,9 @@
             map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
         }
 
+        /*
+        Affichage d'un texte associé à un marqueur
+        */
         function marcheJeanTalon() {
 
             var contentString = '<div id="content">' +
@@ -192,6 +204,31 @@
                 infowindow.open(map, marker);
             });
                       
+        }
+
+        /*
+        Obtenir les directions.
+        */
+        function calcRoute() {
+            alert('0');
+           
+            //var start = document.getElementById('start').value;
+            //var end = document.getElementById('end').value;
+            var originLatlng = new google.maps.LatLng(45.536271, -73.615205);
+            var destinationLatlng = new google.maps.LatLng(45.289309, -72.303855);
+            alert('1');
+            var request = {
+                origin: originLatlng,
+                destination: destinationLatlng,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING
+            };
+            alert('2');
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                }
+            });
+            alert('3');
         }
     </script>
 
